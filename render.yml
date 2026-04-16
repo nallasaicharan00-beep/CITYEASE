@@ -1,0 +1,24 @@
+services:
+  # 1. The Backend (Node.js)
+  - type: web
+    name: cityease-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 3000
+
+  # 2. The Frontend (Static Site)
+  - type: web
+    name: cityease-client
+    runtime: static
+    rootDir: frontend
+    staticPublishPath: .
+    envVars:
+      - key: CITYEASE_API_BASE
+        fromService:
+          type: web
+          name: cityease-api
+          property: host
